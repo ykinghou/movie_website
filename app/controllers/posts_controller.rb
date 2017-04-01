@@ -7,7 +7,10 @@ class PostsController < ApplicationController
     @post = Post.new
   end
 
-
+  def edit
+    @group = Group.find(params[:group_id])
+    @post = Post.find(params[:id])
+  end
 
   def create
     @group = Group.find(params[:group_id])
@@ -21,7 +24,23 @@ class PostsController < ApplicationController
       render :new
     end
   end
+  def update
+    @group = Group.find(params[:group_id])
+    @post = Post.find(params[:id])
+    if @post.update(post_params)
+      redirect_to account_posts_path, notice:"update sucesss!"
+    else
+      render :edit
+    end
+  end
 
+  def destroy
+    @group = Group.find(params[:group_id])
+    @post = Post.find(params[:id])
+    @post.destroy
+    flash[:alert] = "Criticism Delete"
+    redirect_to account_posts_path
+  end
 
 private
 
